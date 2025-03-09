@@ -1,24 +1,26 @@
 // src/TodoForm.js
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { TextField, Button, Box } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { addTodo } from '../../store/todoSlice';
+import { AddIcCallOutlined } from '@mui/icons-material';
 
-function TodoForm({ addTodo }) {
+function TodoForm() {
+  const dispatch = useDispatch();
   const [text, setText] = useState('');
-  const inputRef = useRef()
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addTodo(text);
-    setText('');
-    inputRef.current.focus()
+    if (text.trim()) {
+      dispatch(addTodo(text));
+      setText('');
+    }
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ mb: 3 }}>
-      <Box sx={{ display: 'flex', gap: 2 }}>
+      <Box sx={{ display: 'flex', gap: 1 }}>
         <TextField
-          inputRef={inputRef}
           fullWidth
           variant="outlined"
           size="small"
@@ -26,13 +28,13 @@ function TodoForm({ addTodo }) {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
+
         <Button
-          sx={{ flexShrink: 0 }}
           type="submit"
           variant="contained"
           color="primary"
           disabled={!text.trim()}
-          startIcon={<AddIcon />}
+          startIcon={<AddIcCallOutlined />}
         >
           Thêm
         </Button>

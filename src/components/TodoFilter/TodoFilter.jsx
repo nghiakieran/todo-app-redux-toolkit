@@ -1,14 +1,19 @@
 // src/TodoFilter.js
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { ToggleButtonGroup, ToggleButton, Box } from '@mui/material';
+import { setFilter, selectFilter } from '../../store/todoSlice';
 
-function TodoFilter({ filter, setFilter }) {
+function TodoFilter() {
+  const dispatch = useDispatch();
+  const filter = useSelector(selectFilter);
+  
   const handleFilterChange = (event, newFilter) => {
     if (newFilter !== null) {
-      setFilter(newFilter);
+      dispatch(setFilter(newFilter));
     }
   };
-
+  
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
       <ToggleButtonGroup
